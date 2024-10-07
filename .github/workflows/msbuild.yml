@@ -7,10 +7,10 @@ on:
     branches: [ "master" ]
 
 env:
-  # Path to the solution file relative to the root of the project.
+  # Путь к файлу решения относительно корня проекта.
   SOLUTION_FILE_PATH: Aimrite.sln
 
-  # Configuration type to build.
+  # Конфигурация сборки.
   BUILD_CONFIGURATION: Release
 
 permissions:
@@ -39,11 +39,15 @@ jobs:
     - name: Build with MSBuild
       run: msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:Platform=x64 /m
 
-    # Шаг 5: (Опционально) Загрузка артефактов сборки
+    # Шаг 5.1: Просмотр структуры выходных файлов (для отладки)
+    - name: List output files
+      run: dir /s /b Aimrite\x64\Release\
+
+    # Шаг 5: Загрузка артефактов сборки
     - name: Upload build artifacts
       if: success()
       uses: actions/upload-artifact@v3
       with:
         name: Build-Artifacts
         path: |
-          **\Release\x64\* # Укажите путь к вашим артефактам сборки
+          Aimrite\x64\Release\*
