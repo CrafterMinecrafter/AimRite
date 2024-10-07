@@ -41,7 +41,7 @@ jobs:
 
     # Шаг 5.1: Просмотр структуры выходных файлов (для отладки)
     - name: List output files
-      run: dir /s /b Aimrite\x64\Release\
+      run: Get-ChildItem -Path Aimrite\x64\Release\ -Recurse
 
     # Шаг 5: Загрузка артефактов сборки
     - name: Upload build artifacts
