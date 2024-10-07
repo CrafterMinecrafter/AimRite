@@ -6,8 +6,8 @@
 #include "WindowManager.hpp"
 #include "Vector2.hpp"
 //
-#define SCREEN_WIDTH 1680
-#define SCREEN_HEIGHT 1050
+#define SCREEN_WIDTH 1366
+#define SCREEN_HEIGHT 768
 //#define SCREEN_WIDTH 2560
 //#define SCREEN_HEIGHT 1440
 #define SCALE 95
