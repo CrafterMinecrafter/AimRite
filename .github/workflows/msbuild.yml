@@ -28,6 +28,9 @@ jobs:
     # Шаг 4: Восстановление пакетов NuGet
     - name: Restore NuGet packages
       run: nuget restore Aimrite.sln
+      
+    - name: List installed Windows SDKs
+      run: dir "C:\Program Files (x86)\Windows Kits\10\Include"
 
     # Шаг 5: Сборка проекта с помощью MSBuild
     - name: Build with MSBuild
