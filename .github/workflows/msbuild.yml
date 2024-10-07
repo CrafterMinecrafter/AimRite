@@ -39,15 +39,16 @@ jobs:
     - name: Build with MSBuild
       run: msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:Platform=x64 /m
 
-    # Шаг 5.1: Просмотр структуры выходных файлов (для отладки)
+    # Шаг 5: Просмотр структуры выходных файлов
     - name: List output files
-      run: Get-ChildItem -Path Aimrite\x64\Release\ -Recurse
-
-    # Шаг 5: Загрузка артефактов сборки
+      run: |
+        echo "Listing output files..."
+        dir Aimrite\x64\Release\
+      
+    # Шаг 6: Загрузка артефактов сборки
     - name: Upload build artifacts
       if: success()
       uses: actions/upload-artifact@v3
       with:
         name: Build-Artifacts
-        path: |
-          Aimrite\x64\Release\Aimrite.exe # Укажите путь к исполняемому файлу
+        path: Aimrite\x64\Release\Aimrite.exe
