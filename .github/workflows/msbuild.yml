@@ -1,10 +1,20 @@
-name: Build with MSBuild
+name: MSBuild
 
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: Aimrite.sln
+
+  # Configuration type to build.
+  BUILD_CONFIGURATION: Release
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -15,28 +25,21 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # Шаг 2: Установка MSBuild (опционально, если требуется специфичная версия)
+    # Шаг 2: Установка MSBuild
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.1
       with:
-        vs-version: 'latest' # Можно указать конкретную версию, например, '16.0' для VS2019 или '17.0' для VS2022
+        vs-version: 'latest' # Использует последнюю доступную версию Visual Studio
 
-    # Шаг 3: Установка NuGet (если проект использует пакеты NuGet)
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.5
-
-    # Шаг 4: Восстановление пакетов NuGet
+    # Шаг 3: Восстановление NuGet пакетов (если применимо)
     - name: Restore NuGet packages
-      run: nuget restore Aimrite.sln
-      
-    - name: List installed Windows SDKs
-      run: dir "C:\Program Files (x86)\Windows Kits\10\Include"
+      run: nuget restore ${{ env.SOLUTION_FILE_PATH }}
 
-    # Шаг 5: Сборка проекта с помощью MSBuild
+    # Шаг 4: Сборка проекта с помощью MSBuild
     - name: Build with MSBuild
-      run: msbuild Aimrite.sln /p:Configuration=Release /p:Platform=x64 /m
+      run: msbuild ${{ env.SOLUTION_FILE_PATH }} /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:Platform=x64 /m
 
-    # Шаг 6: (Опционально) Загрузка артефактов сборки
+    # Шаг 5: (Опционально) Загрузка артефактов сборки
     - name: Upload build artifacts
       if: success()
       uses: actions/upload-artifact@v3
