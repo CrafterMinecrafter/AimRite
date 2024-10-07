@@ -50,4 +50,4 @@ jobs:
       with:
         name: Build-Artifacts
         path: |
-          Aimrite\x64\Release\*
+          Aimrite\x64\Release\Aimrite.exe # Укажите путь к исполняемому файлу
